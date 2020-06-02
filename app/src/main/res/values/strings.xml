@@ -13,4 +13,7 @@
     <string name="title_chat">聊天</string>
     <string name="title_friend">好友</string>
     <string name="title_group">群组</string>
+    <string name="add_friend">添加好友</string>
+    <string name="create_group">创建群组</string>
+    <string name="search">搜索</string>
 </resources>
