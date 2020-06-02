@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/add_friend"
+        android:title="@string/add_friend"
+        android:icon="@drawable/ic_add_friend_24dp" />
+
+    <item
+        android:id="@+id/create_group"
+        android:title="@string/create_group"
+        android:icon="@drawable/ic_add_group_black_24dp" />
+
+</menu>
