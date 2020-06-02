@@ -1,7 +1,6 @@
 package com.knilim.knilim
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this)
             .load(avatarUrl)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(avator)
+            .into(avatar)
 
 
         // 底部导航栏
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initActions() {
         // 头像处的ImageView点击后, 弹出抽屉
-        avator.setOnClickListener {
+        avatar.setOnClickListener {
             draw_container.openDrawer(GravityCompat.START)
         }
     }
