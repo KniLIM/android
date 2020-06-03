@@ -15,7 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.knilim.knilim.MainActivity
+import com.knilim.knilim.ui.MainActivity
 
 import com.knilim.knilim.R
 
