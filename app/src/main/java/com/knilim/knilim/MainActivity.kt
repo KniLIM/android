@@ -29,13 +29,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.let {
             it.title = ""
         }
-        // 设置头像
-        val avatarUrl = "http://cdn.loheagn.com/2020-06-02-12CEBEBD-0E57-41A9-91E9-2ADA8AC0B3AF.jpg"
-        Glide.with(this)
-            .load(avatarUrl)
-            .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(avatar)
-
 
         // 底部导航栏
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -47,9 +40,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initActions() {
+        // 设置头像
+        val avatarUrl = "http://cdn.loheagn.com/2020-06-02-12CEBEBD-0E57-41A9-91E9-2ADA8AC0B3AF.jpg"
+        Glide.with(this)
+            .load(avatarUrl)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(avatar)
         // 头像处的ImageView点击后, 弹出抽屉
         avatar.setOnClickListener {
             draw_container.openDrawer(GravityCompat.START)
         }
+        // 抽屉的背景图
+        Glide.with(this)
+            .load("http://cdn.loheagn.com/2020-06-02-wallhaven-2evkjm.jpg")
+            .into(draw_image_background)
+        // 设置抽屉里的头像
+        Glide.with(this)
+            .load(avatarUrl)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(draw_avatar)
+        // 设置头像的旁边的文字
+        val mySignature = "我就是雷布斯!"
+        val myNickname = "are you ok ?"
+        draw_my_nickname.text = myNickname
+        draw_my_signature.text = mySignature
     }
 }

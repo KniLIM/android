@@ -16,4 +16,9 @@
     <string name="add_friend">添加好友</string>
     <string name="create_group">创建群组</string>
     <string name="search">搜索</string>
+    <string name="about_us">关于我们</string>
+    <string name="settings">账号设置</string>
+    <string name="notifications">消息通知</string>
+    <string name="github">项目地址</string>
+    <string name="money">赞赏投币</string>
 </resources>
