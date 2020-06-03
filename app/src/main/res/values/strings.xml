@@ -9,6 +9,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+<!--    MainActivity相关字符串-->
     <string name="title_activity_main">MainActivity</string>
     <string name="title_dialog">聊天</string>
     <string name="title_friend">好友</string>
@@ -21,4 +23,5 @@
     <string name="notifications">消息通知</string>
     <string name="github">项目地址</string>
     <string name="money">赞赏投币</string>
+
 </resources>
