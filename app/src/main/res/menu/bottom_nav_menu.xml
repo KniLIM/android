@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_chat"
+        android:id="@+id/navigation_dialog"
         android:icon="@drawable/ic_chat_black_24dp"
-        android:title="@string/title_chat" />
+        android:title="@string/title_dialog" />
 
     <item
         android:id="@+id/navigation_friend"

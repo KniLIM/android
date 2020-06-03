@@ -10,7 +10,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_chat">聊天</string>
+    <string name="title_dialog">聊天</string>
     <string name="title_friend">好友</string>
     <string name="title_group">群组</string>
     <string name="add_friend">添加好友</string>
