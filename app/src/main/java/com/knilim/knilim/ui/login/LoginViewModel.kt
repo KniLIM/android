@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
-import com.knilim.knilim.data.LoginRepository
-import com.knilim.knilim.data.Result
+import com.knilim.knilim.data.login.LoginRepository
+import com.knilim.knilim.data.login.Result
 
 import com.knilim.knilim.R
 

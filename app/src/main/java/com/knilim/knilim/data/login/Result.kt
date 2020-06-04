@@ -1,4 +1,4 @@
-package com.knilim.knilim.data
+package com.knilim.knilim.data.login
 
 /**
  * A generic class that holds a value with its loading status.

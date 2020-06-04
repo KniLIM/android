@@ -8,10 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.knilim.knilim.R
 import com.knilim.knilim.ui.MainViewModel
+import com.stfalcon.chatkit.commons.models.IDialog
+import com.stfalcon.chatkit.commons.models.IMessage
 
 class DialogFragment : Fragment() {
 
     private lateinit var dialogModel: MainViewModel
+
+    private lateinit var dialogs : List<IDialog<IMessage>>
 
     override fun onCreateView(
         inflater: LayoutInflater,

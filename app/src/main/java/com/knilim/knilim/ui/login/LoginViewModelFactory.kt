@@ -2,8 +2,8 @@ package com.knilim.knilim.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.knilim.knilim.data.LoginDataSource
-import com.knilim.knilim.data.LoginRepository
+import com.knilim.knilim.data.login.LoginDataSource
+import com.knilim.knilim.data.login.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
@@ -16,7 +16,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                     loginRepository = LoginRepository(
-                            dataSource = LoginDataSource()
+                        dataSource = LoginDataSource()
                     )
             ) as T
         }

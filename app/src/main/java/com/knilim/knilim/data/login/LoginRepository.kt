@@ -1,6 +1,6 @@
-package com.knilim.knilim.data
+package com.knilim.knilim.data.login
 
-import com.knilim.knilim.data.model.User
+import com.knilim.knilim.data.model.IUser.User
 
 /**
  * Class that requests authentication and user information from the remote data source and
