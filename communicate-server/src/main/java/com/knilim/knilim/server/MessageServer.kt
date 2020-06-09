@@ -7,9 +7,9 @@ object MessageServer {
 
     private const val TAG = "MessageServer"
 
-    lateinit var host : String
-    var port : Int? = null
-    lateinit var msgRcvHandler: MsgRcvHandler
+    private lateinit var host : String
+    private var port : Int? = null
+    private lateinit var msgRcvHandler: MsgRcvHandler
 
     fun config(host : String, port : Int, msgRcvHandler: MsgRcvHandler) {
         this.host = host
