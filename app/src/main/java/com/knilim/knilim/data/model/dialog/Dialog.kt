@@ -1,6 +1,6 @@
 package com.knilim.knilim.data.model.dialog
 
-import com.knilim.knilim.data.model.message.Message
+import com.knilim.server.data.model.message.Message
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser

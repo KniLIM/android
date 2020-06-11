@@ -1,4 +1,4 @@
-package com.knilim.knilim.server;
+package com.knilim.server.server;
 
 public interface MsgRcvHandler {
 

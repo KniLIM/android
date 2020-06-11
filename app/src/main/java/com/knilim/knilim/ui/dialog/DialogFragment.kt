@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.knilim.knilim.R
-import com.knilim.knilim.ui.MainViewModel
+import com.knilim.knilim.ui.main.MainViewModel
 import com.stfalcon.chatkit.commons.models.IDialog
 import com.stfalcon.chatkit.commons.models.IMessage
 

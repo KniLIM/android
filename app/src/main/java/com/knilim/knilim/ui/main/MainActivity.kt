@@ -1,4 +1,4 @@
-package com.knilim.knilim.ui
+package com.knilim.knilim.ui.main
 
 import android.os.Bundle
 import android.view.Menu
@@ -51,12 +51,12 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.user.observe(this, Observer {
             // 设置toolbar上的头像
             Glide.with(this)
-                .load(it.mAvatar)
+                .load(it.avatar)
                 .apply(RequestOptions.bitmapTransform(CircleCrop()))
                 .into(avatar)
             // 设置抽屉里的头像
             Glide.with(this)
-                .load(it.mAvatar)
+                .load(it.avatar)
                 .apply(RequestOptions.bitmapTransform(CircleCrop()))
                 .into(draw_avatar)
             // 设置头像的旁边的文字

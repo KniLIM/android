@@ -1,15 +1,21 @@
 package com.knilim.knilim.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import com.knilim.base.BaseViewModel
 import com.knilim.knilim.data.login.LoginRepository
 import com.knilim.knilim.data.login.Result
 
 import com.knilim.knilim.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -19,12 +25,18 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
-
-        if (result is Result.Success) {
-            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.nickname))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+        Log.d("threadtest", Thread.currentThread().toString())
+        uiScope.launch {
+            val deferred = async(Dispatchers.IO) {
+                delay(60000)
+                loginRepository.login(username, password)
+            }
+            val result = deferred.await()
+            if (result is Result.Success) {
+                _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.nickname))
+            } else {
+                _loginResult.value = LoginResult(error = R.string.login_failed)
+            }
         }
     }
 
@@ -38,17 +50,15 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    // A placeholder username validation check
     private fun isUserNameValid(username: String): Boolean {
         return if (username.contains('@')) {
             Patterns.EMAIL_ADDRESS.matcher(username).matches()
         } else {
-            username.isNotBlank()
+            Patterns.PHONE.matcher(username).matches()
         }
     }
 
-    // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
-        return password.length > 5
+        return password.isNotBlank()
     }
 }

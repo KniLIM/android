@@ -1,4 +1,4 @@
-package com.knilim.knilim.ui
+package com.knilim.knilim.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +15,10 @@ class MainViewModel : ViewModel() {
             "18890123456",
             "1234567890",
             "http://cdn.loheagn.com/2020-06-02-12CEBEBD-0E57-41A9-91E9-2ADA8AC0B3AF.jpg",
-            "前进吧,达瓦里希!"
+            "前进吧,达瓦里希!",
+            true,
+            "Beijing",
+            "8888888"
         )
     }
     val user : LiveData<User> = _user

@@ -1,7 +1,6 @@
-package com.knilim.knilim.server
+package com.knilim.server.server
 
 import android.util.Log
-import java.util.*
 
 object MessageServer {
 
@@ -12,13 +11,13 @@ object MessageServer {
     private lateinit var msgRcvHandler: MsgRcvHandler
 
     fun config(host : String, port : Int, msgRcvHandler: MsgRcvHandler) {
-        this.host = host
-        this.port = port
-        this.msgRcvHandler = msgRcvHandler
+        MessageServer.host = host
+        MessageServer.port = port
+        MessageServer.msgRcvHandler = msgRcvHandler
     }
 
     fun connect(): Boolean {
-        val url = "http://${host}:${port}/sockets"
+        val url = "http://$host:$port/sockets"
         return try {
             true
         } catch (e: Exception) {
