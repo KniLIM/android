@@ -3,7 +3,6 @@ package com.knilim.knilim.ui.login
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import com.knilim.base.BaseViewModel
 import com.knilim.knilim.data.login.LoginRepository
@@ -12,7 +11,6 @@ import com.knilim.knilim.data.login.Result
 import com.knilim.knilim.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewModel() {
@@ -28,12 +26,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
         Log.d("threadtest", Thread.currentThread().toString())
         uiScope.launch {
             val deferred = async(Dispatchers.IO) {
-                delay(60000)
                 loginRepository.login(username, password)
             }
             val result = deferred.await()
             if (result is Result.Success) {
-                _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.nickname))
+                _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data))
             } else {
                 _loginResult.value = LoginResult(error = R.string.login_failed)
             }

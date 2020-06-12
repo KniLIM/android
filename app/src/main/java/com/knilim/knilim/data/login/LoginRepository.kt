@@ -1,6 +1,12 @@
 package com.knilim.knilim.data.login
 
 import com.knilim.knilim.data.model.IUser.User
+import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
+import com.knilim.base.Utils
+import com.knilim.knilim.data.model.IUser.Friend
+import com.knilim.knilim.data.model.IUser.Group
+import com.knilim.server.data.model.Socket
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -11,38 +17,34 @@ object LoginRepository {
     
     private val dataSource = LoginDataSource()
     
-    // in-memory cache of the loggedInUser object
-    var user: User? = null
-        private set
+    lateinit var user : User
+    lateinit var socket: Socket
+    lateinit var friends : MutableList<Friend>
+    lateinit var groups : MutableList<Group>
+    lateinit var token : String
 
     val isLoggedIn: Boolean
         get() = user != null
 
-    init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-        user = null
-    }
 
     fun logout() {
-        user = null
         dataSource.logout()
     }
 
-    suspend fun login(username: String, password: String): Result<User> {
-        // handle login
+    suspend fun login(username: String, password: String): Result<String> {
         val result = dataSource.login(username, password)
 
         if (result is Result.Success) {
-            setLoggedInUser(result.data)
+            val response = Utils.gson.fromJson(result.data, JsonObject::class.java)
+            user = Utils.gson.fromJson(response.get("self").toString(), User::class.java)
+            var turnsType = object : TypeToken<List<Group>>() {}.type
+            groups = Utils.gson.fromJson(response.get("groups").toString(), turnsType)
+            turnsType = object : TypeToken<List<Friend>>() {}.type
+            friends = Utils.gson.fromJson(response.get("friends").toString(), turnsType)
+            socket = Utils.gson.fromJson(response.get("socket").toString(), Socket::class.java)
+            token = response.get("token").toString()
         }
 
-        return result
-    }
-
-    private fun setLoggedInUser(user: User) {
-        this.user = user
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
+        return Result.Success(user.nickname)
     }
 }

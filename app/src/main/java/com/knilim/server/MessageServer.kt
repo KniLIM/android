@@ -19,6 +19,7 @@ object MessageServer {
     fun connect(): Boolean {
         val url = "http://$host:$port/sockets"
         return try {
+            // TODO 初始化,并连接服务器
             true
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
