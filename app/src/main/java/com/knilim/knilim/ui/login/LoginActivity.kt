@@ -129,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
         // 用户一旦登录过,就把他保存起来
         kv.encode(getString(R.string.has_local), true)
         kv.encode(getString(R.string.kv_username), username.text.toString())
-        kv.encode(getString(R.string.kv_password), username.text.toString())
+        kv.encode(getString(R.string.kv_password), password.text.toString())
 
         // 跳转到主页面
         val intent = Intent(this@LoginActivity, MainActivity::class.java)

@@ -34,7 +34,7 @@ object LoginRepository {
     suspend fun login(username: String, password: String): Result<String> {
         val result = dataSource.login(username, password)
 
-        if (result is Result.Success) {
+        return if (result is Result.Success) {
             val response = Utils.gson.fromJson(result.data, JsonObject::class.java)
             user = Utils.gson.fromJson(response.get("self").toString(), User::class.java)
             var turnsType = object : TypeToken<List<Group>>() {}.type
@@ -42,9 +42,12 @@ object LoginRepository {
             turnsType = object : TypeToken<List<Friend>>() {}.type
             friends = Utils.gson.fromJson(response.get("friends").toString(), turnsType)
             socket = Utils.gson.fromJson(response.get("socket").toString(), Socket::class.java)
-            token = response.get("token").toString()
+            token = Utils.gson.fromJson(response.get("token").toString(), String::class.java)
+            // 为了契合后端的bug...
+            user.nickname = Utils.gson.fromJson(response.getAsJsonObject("self").get("nickName").toString(), String::class.java)
+            Result.Success(user.nickname)
+        } else {
+            result
         }
-
-        return Result.Success(user.nickname)
     }
 }
