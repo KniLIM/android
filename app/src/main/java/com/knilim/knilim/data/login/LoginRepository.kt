@@ -1,11 +1,11 @@
 package com.knilim.knilim.data.login
 
-import com.knilim.knilim.data.model.IUser.User
+import com.knilim.knilim.data.model.user.User
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.knilim.base.Utils
-import com.knilim.knilim.data.model.IUser.Friend
-import com.knilim.knilim.data.model.IUser.Group
+import com.knilim.knilim.data.model.user.Friend
+import com.knilim.knilim.data.model.user.Group
 import com.knilim.server.data.model.Socket
 
 /**

@@ -1,4 +1,4 @@
-package com.knilim.knilim.data.model.IUser;
+package com.knilim.knilim.data.model.user;
 
 import androidx.annotation.NonNull;
 
