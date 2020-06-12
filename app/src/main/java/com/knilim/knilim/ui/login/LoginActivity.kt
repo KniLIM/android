@@ -20,6 +20,7 @@ import com.knilim.knilim.ui.main.MainActivity
 import com.tencent.mmkv.MMKV
 
 import com.knilim.knilim.R
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,17 +30,13 @@ class LoginActivity : AppCompatActivity() {
         MMKV.defaultMMKV()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         Log.d("threadtest", Thread.currentThread().toString())
 
         setContentView(R.layout.activity_login)
-
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
@@ -71,10 +68,6 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
             }
-            setResult(Activity.RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         username.afterTextChanged {
@@ -106,10 +99,6 @@ class LoginActivity : AppCompatActivity() {
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
-                // 用户一旦登录过,就把他保存起来
-                kv.encode(getString(R.string.has_local), true)
-                kv.encode(getString(R.string.kv_username), username.text.toString())
-                kv.encode(getString(R.string.kv_password), username.text.toString())
             }
         }
 
@@ -132,13 +121,17 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : initiate successful logged in experience
         Toast.makeText(
                 applicationContext,
-                "$welcome $displayName",
+                "$welcome $displayName！",
                 Toast.LENGTH_LONG
         ).show()
+        // 用户一旦登录过,就把他保存起来
+        kv.encode(getString(R.string.has_local), true)
+        kv.encode(getString(R.string.kv_username), username.text.toString())
+        kv.encode(getString(R.string.kv_password), username.text.toString())
 
+        // 跳转到主页面
         val intent = Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intent)
     }

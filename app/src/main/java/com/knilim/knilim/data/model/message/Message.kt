@@ -1,4 +1,4 @@
-package com.knilim.server.data.model.message
+package com.knilim.knilim.data.model.message
 
 import com.stfalcon.chatkit.commons.models.IMessage
 import com.stfalcon.chatkit.commons.models.IUser

@@ -1,4 +1,4 @@
-package com.knilim.server.data.model.message
+package com.knilim.knilim.data.model.message
 
 enum class MessageType {
     TEXT,
