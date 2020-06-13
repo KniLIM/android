@@ -4,7 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import android.util.Patterns
-import com.knilim.base.BaseViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.knilim.knilim.data.login.LoginRepository
 import com.knilim.knilim.data.login.Result
 
@@ -13,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewModel() {
+class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -24,13 +25,15 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
     fun login(username: String, password: String) {
         // can be launched in a separate asynchronous job
         Log.d("threadtest", Thread.currentThread().toString())
-        uiScope.launch {
+
+        viewModelScope.launch {
             val deferred = async(Dispatchers.IO) {
                 loginRepository.login(username, password)
             }
             val result = deferred.await()
             if (result is Result.Success) {
-                _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data))
+                _loginResult.value =
+                    LoginResult(success = LoggedInUserView(displayName = result.data))
             } else {
                 _loginResult.value = LoginResult(error = R.string.login_failed)
             }

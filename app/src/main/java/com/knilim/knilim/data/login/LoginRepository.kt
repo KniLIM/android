@@ -7,6 +7,7 @@ import com.knilim.base.Utils
 import com.knilim.knilim.data.model.user.Friend
 import com.knilim.knilim.data.model.user.Group
 import com.knilim.server.data.model.Socket
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -19,8 +20,8 @@ object LoginRepository {
     
     lateinit var user : User
     lateinit var socket: Socket
-    lateinit var friends : MutableList<Friend>
-    lateinit var groups : MutableList<Group>
+    lateinit var friends : CopyOnWriteArrayList<Friend>
+    lateinit var groups : CopyOnWriteArrayList<Group>
     lateinit var token : String
 
     val isLoggedIn: Boolean
@@ -37,9 +38,9 @@ object LoginRepository {
         return if (result is Result.Success) {
             val response = Utils.gson.fromJson(result.data, JsonObject::class.java)
             user = Utils.gson.fromJson(response.get("self").toString(), User::class.java)
-            var turnsType = object : TypeToken<List<Group>>() {}.type
+            var turnsType = object : TypeToken<CopyOnWriteArrayList<Group>>() {}.type
             groups = Utils.gson.fromJson(response.get("groups").toString(), turnsType)
-            turnsType = object : TypeToken<List<Friend>>() {}.type
+            turnsType = object : TypeToken<CopyOnWriteArrayList<Friend>>() {}.type
             friends = Utils.gson.fromJson(response.get("friends").toString(), turnsType)
             socket = Utils.gson.fromJson(response.get("socket").toString(), Socket::class.java)
             token = Utils.gson.fromJson(response.get("token").toString(), String::class.java)

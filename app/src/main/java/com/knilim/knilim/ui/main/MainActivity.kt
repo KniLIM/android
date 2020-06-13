@@ -2,21 +2,26 @@ package com.knilim.knilim.ui.main
 
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.knilim.base.Utils
 import com.knilim.knilim.R
+import com.knilim.knilim.data.database.ImDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
@@ -26,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 初始化数据库
+        Utils.db = Room.databaseBuilder(applicationContext, ImDatabase::class.java, getString(R.string.database)).build()
 
         // 头部toolbar的处理
         setSupportActionBar(toolbar)
@@ -46,8 +54,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindData() {
-        val mainViewModel : MainViewModel =
-            ViewModelProviders.of(this).get(MainViewModel::class.java)
         mainViewModel.user.observe(this, Observer {
             // 设置toolbar上的头像
             Glide.with(this)

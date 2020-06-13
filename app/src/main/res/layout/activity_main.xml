@@ -94,6 +94,7 @@
 
 <!--            首先摆放包括头像的卡片-->
             <com.google.android.material.card.MaterialCardView
+                android:theme="@style/Theme.MaterialComponents.Light"
                 android:id="@+id/avatar_card"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -146,6 +147,7 @@
 
 <!--            然后是一堆item的卡片-->
             <com.google.android.material.card.MaterialCardView
+                android:theme="@style/Theme.MaterialComponents.Light"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
