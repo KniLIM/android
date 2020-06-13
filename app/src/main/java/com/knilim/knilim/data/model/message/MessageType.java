@@ -1,6 +1,8 @@
 package com.knilim.knilim.data.model.message;
 
-public enum MessageType {
-    P2P,
-    P2G
+public final class MessageType {
+    public final static Integer P2P = 1;
+    public final static Integer P2G = 2;
+
+    private MessageType() {}
 }

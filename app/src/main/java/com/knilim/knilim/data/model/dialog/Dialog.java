@@ -11,7 +11,7 @@ import java.util.List;
 public class Dialog implements IDialog {
     private String id;
     private List<Message> messages;
-    private DialogType dialogType;
+    private Integer dialogType;
     private String avatar;
     private Integer unread;
 
@@ -53,11 +53,11 @@ public class Dialog implements IDialog {
         this.id = id;
     }
 
-    public DialogType getDialogType() {
+    public Integer getDialogType() {
         return dialogType;
     }
 
-    public void setDialogType(DialogType dialogType) {
+    public void setDialogType(Integer dialogType) {
         this.dialogType = dialogType;
     }
 

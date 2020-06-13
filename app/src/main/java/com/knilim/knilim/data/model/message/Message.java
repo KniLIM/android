@@ -2,14 +2,14 @@ package com.knilim.knilim.data.model.message;
 
 public class Message {
     private String id;
-    private MessageType messageType;
-    private ContentType contentType;
+    private Integer messageType;
+    private Integer contentType;
     private String sender;
     private String receiver;
     private Long createdAt;
     private String content;
 
-    public Message(String id, MessageType messageType, ContentType contentType, String sender, String receiver, Long createdAt, String content) {
+    public Message(String id, Integer messageType, Integer contentType, String sender, String receiver, Long createdAt, String content) {
         this.id = id;
         this.messageType = messageType;
         this.contentType = contentType;
@@ -21,19 +21,6 @@ public class Message {
 
     public Message() {}
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id='" + id + '\'' +
-                ", messageType=" + messageType +
-                ", contentType=" + contentType +
-                ", sender='" + sender + '\'' +
-                ", receiver='" + receiver + '\'' +
-                ", createdAt=" + createdAt +
-                ", content='" + content + '\'' +
-                '}';
-    }
-
     public String getId() {
         return id;
     }
@@ -42,19 +29,19 @@ public class Message {
         this.id = id;
     }
 
-    public MessageType getMessageType() {
+    public Integer getMessageType() {
         return messageType;
     }
 
-    public void setMessageType(MessageType messageType) {
+    public void setMessageType(Integer messageType) {
         this.messageType = messageType;
     }
 
-    public ContentType getContentType() {
+    public Integer getContentType() {
         return contentType;
     }
 
-    public void setContentType(ContentType contentType) {
+    public void setContentType(Integer contentType) {
         this.contentType = contentType;
     }
 
