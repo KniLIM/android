@@ -13,7 +13,7 @@ object FriendRepository {
         }
     }
 
-    fun findFriend(id : String) : Friend? {
+    fun getFriendById(id : String) : Friend? {
         return friendMap[id]
     }
 }

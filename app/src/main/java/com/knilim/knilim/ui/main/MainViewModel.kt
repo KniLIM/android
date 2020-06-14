@@ -53,6 +53,7 @@ class MainViewModel : ViewModel() {
         UserRepository.user = LoginRepository.user
         messages = Utils.db.messageDao().selectAllMessages()
         dialogs = Utils.db.dialogDao().selectAllDialogs()
+//        initDatabase()
     }
 
     fun updateMessagesMap(messages: List<Message>) {
@@ -66,11 +67,11 @@ class MainViewModel : ViewModel() {
     fun initDatabase() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val dialogId = UUID.randomUUID().toString()
+                val dialogId = LoginRepository.friends.last().id
                 val dialog = Dialog(
                     dialogId,
                     DialogType.P2P,
-                    "http://cdn.loheagn.com/2020-05-10-ca1086f522d34068b47d9c47289fa844.jpg",
+                    "http://cdn.loheagn.com/2020-06-14-Snipaste_2020-06-14_16-42-18.png",
                     1,
                     "雷猴王",
                     System.currentTimeMillis()
@@ -80,10 +81,10 @@ class MainViewModel : ViewModel() {
                     UUID.randomUUID().toString(),
                     MessageType.P2P,
                     ContentType.TEXT,
-                    "02a8d545-5b2b-40da-93dd-c9e20e0d21fb",
                     "5e809c0a-d986-4f6d-b672-95314fe7ca85",
+                    "02a8d545-5b2b-40da-93dd-c9e20e0d21fb",
                     System.currentTimeMillis(),
-                    "第一条消息",
+                    "嘿，小伙子，想买我的手机吗",
                     dialogId
                 )
                 Utils.db.messageDao().insertMessage(message)

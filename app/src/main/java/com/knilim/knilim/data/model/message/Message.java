@@ -83,7 +83,7 @@ public class Message implements IMessage {
     @Override
     public IUser getUser() {
         if(author == null) {
-            author = FriendRepository.INSTANCE.findFriend(sender);
+            author = FriendRepository.INSTANCE.getFriendById(sender);
         }
         if(author == null) {
             author = UserRepository.INSTANCE.getUser();

@@ -16,12 +16,14 @@ import com.stfalcon.chatkit.commons.models.IUser;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "Dialog",
         indices = @Index("id"))
-public class Dialog implements IDialog<Message> {
+public class Dialog implements IDialog<Message>, Serializable {
+    private static final long serialVersionUID=1L;
     @PrimaryKey
     @ColumnInfo(name = "id", typeAffinity = ColumnInfo.TEXT)
     @NonNull

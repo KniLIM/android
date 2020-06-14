@@ -14,4 +14,7 @@ interface MessageDao {
 
     @Query("SELECT * FROM Message")
     fun selectAllMessages() : LiveData<List<Message>>
+
+    @Query("select * from Message where dialogId= :dialogId")
+    fun getMessagesByDialog(dialogId: String) : LiveData<List<Message>>
 }

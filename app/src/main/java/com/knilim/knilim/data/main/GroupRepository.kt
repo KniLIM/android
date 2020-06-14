@@ -13,4 +13,8 @@ object GroupRepository {
             groupMap[group.id] = group
         }
     }
+
+    fun getGroupById(id: String): Group? {
+        return groupMap[id]
+    }
 }

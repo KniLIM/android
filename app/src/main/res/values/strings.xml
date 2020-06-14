@@ -30,4 +30,7 @@
     <!--    涉及全局的一些字符串-->
     <string name="url">http://im.loheagn.com:8080/</string>
     <string name="database">IM</string>
+
+    <!--    ChatActivity相关字符串-->
+    <string name="hint_enter_a_message">请输入……</string>
 </resources>
