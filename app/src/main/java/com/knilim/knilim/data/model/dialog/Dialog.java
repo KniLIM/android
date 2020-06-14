@@ -8,9 +8,10 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.knilim.knilim.data.main.MessageRepository;
 import com.knilim.knilim.data.main.UserRepository;
+import com.knilim.knilim.data.model.message.Message;
 import com.stfalcon.chatkit.commons.models.IDialog;
-import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.IUser;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Entity(tableName = "Dialog",
         indices = @Index("id"))
-public class Dialog implements IDialog {
+public class Dialog implements IDialog<Message> {
     @PrimaryKey
     @ColumnInfo(name = "id", typeAffinity = ColumnInfo.TEXT)
     @NonNull
@@ -38,6 +39,9 @@ public class Dialog implements IDialog {
 
     @Ignore
     private ArrayList<IUser> users;
+
+    @Ignore
+    private Message lastMessage;
 
     public Dialog(String id, Integer dialogType, String avatar, Integer unread, String name, Long createdTime) {
         this.id = id;
@@ -74,18 +78,19 @@ public class Dialog implements IDialog {
     }
 
     @Override
-    public IMessage getLastMessage() {
-        return null;
+    public Message getLastMessage() {
+        setLastMessage(MessageRepository.INSTANCE.getLastMessage(id));
+        return lastMessage;
     }
 
     @Override
-    public void setLastMessage(IMessage message) {
-
+    public void setLastMessage(Message message) {
+        this.lastMessage = message;
     }
 
     @Override
     public int getUnreadCount() {
-        return 0;
+        return unread;
     }
 
     public void setId(String id) {

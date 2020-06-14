@@ -42,6 +42,7 @@ class MainViewModel : ViewModel() {
     val friends: LiveData<CopyOnWriteArrayList<Friend>> = _friends
 
     lateinit var messages: LiveData<List<Message>>
+    lateinit var dialogs: LiveData<List<Dialog>>
 
     private val socket = LoginRepository.socket
     private val token = LoginRepository.token
@@ -51,10 +52,15 @@ class MainViewModel : ViewModel() {
         FriendRepository.setFriendMap(LoginRepository.friends)
         UserRepository.user = LoginRepository.user
         messages = Utils.db.messageDao().selectAllMessages()
+        dialogs = Utils.db.dialogDao().selectAllDialogs()
     }
 
     fun updateMessagesMap(messages: List<Message>) {
         MessageRepository.updateMessageMap(messages)
+    }
+
+    fun updateDialogMap(dialogs: List<Dialog>) {
+
     }
 
     fun initDatabase() {

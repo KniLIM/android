@@ -68,4 +68,14 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
+    // chat kit
+    def circleImageViewVersion = '2.2.0'
+    def shapeImageViewVersion = '0.9.3'
+    def circleindicatorVersion = '1.2.2@aar'
+    //ImageViews
+    implementation "de.hdodenhof:circleimageview:$circleImageViewVersion"
+    implementation "com.github.siyamed:android-shape-imageview:$shapeImageViewVersion"
+    //Utils
+    implementation "me.relex:circleindicator:$circleindicatorVersion"
+
 }

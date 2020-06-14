@@ -19,7 +19,7 @@ object MessageRepository {
         }
     }
 
-    fun getLastMessage(dialogId: String): IMessage? {
+    fun getLastMessage(dialogId: String): Message? {
         return messageMap[dialogId]?.last()
     }
 }
