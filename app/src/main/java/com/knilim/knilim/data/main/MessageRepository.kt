@@ -11,14 +11,24 @@ import java.util.concurrent.CopyOnWriteArrayList
 object MessageRepository {
     private val messageMap = ConcurrentHashMap<String, CopyOnWriteArrayList<Message>>()
 
-    fun updateMessageMap(messages: List<Message>) {
+    fun setMessageMap(messages: List<Message>) {
         Log.d("message update", "message update")
-        for(message in messages) {
-            if(messageMap[message.dialogId] == null) {
+        for (message in messages) {
+            if (messageMap[message.dialogId] == null) {
                 messageMap[message.dialogId] = CopyOnWriteArrayList()
             }
             messageMap[message.dialogId]?.add(message)
         }
+    }
+
+    fun updateMessageMap(dialogId: String, messages: CopyOnWriteArrayList<Message>) {
+        messageMap[dialogId] = messages
+    }
+
+    fun getMessagesByDialogId(dialogId: String): CopyOnWriteArrayList<Message> {
+        val result = messageMap[dialogId] ?: CopyOnWriteArrayList()
+        messageMap[dialogId] = result
+        return result
     }
 
     fun getLastMessage(dialogId: String): Message? {
@@ -26,7 +36,7 @@ object MessageRepository {
     }
 
     fun judgeMessageType(dialogId: String): Int {
-        return if(IUserRepository.judgeDialogType(dialogId) == DialogType.P2G) {
+        return if (IUserRepository.judgeDialogType(dialogId) == DialogType.P2G) {
             MessageType.P2G
         } else {
             MessageType.P2P

@@ -57,7 +57,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateMessagesMap(messages: List<Message>) {
-        MessageRepository.updateMessageMap(messages)
+        MessageRepository.setMessageMap(messages)
     }
 
     fun updateDialogMap(dialogs: List<Dialog>) {
