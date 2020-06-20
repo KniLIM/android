@@ -28,7 +28,7 @@ class LoginDataSource {
     private fun fetchLoginData(username: String, password: String): String? {
         val jsonBody = JSONObject()
         jsonBody.put("account", username)
-        jsonBody.put("password", password)
+        jsonBody.put("password", Utils.sha256(password))
         jsonBody.put("device", "phone")
         val requestBody = jsonBody.toString().toRequestBody(Utils.JSON)
         val url = Utils.getUrl("account/login")
