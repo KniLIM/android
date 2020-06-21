@@ -8,8 +8,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.knilim.knilim.data.login.LoginRepository;
 import com.knilim.knilim.data.main.FriendRepository;
-import com.knilim.knilim.data.main.UserRepository;
 import com.knilim.knilim.data.model.dialog.Dialog;
 import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.commons.models.IUser;
@@ -86,7 +86,7 @@ public class Message implements IMessage {
             author = FriendRepository.INSTANCE.getFriendById(sender);
         }
         if(author == null) {
-            author = UserRepository.INSTANCE.getUser();
+            author = LoginRepository.INSTANCE.getUser();
         }
         return author;
     }

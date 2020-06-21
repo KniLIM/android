@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.knilim.knilim.R
+import com.knilim.knilim.data.main.DialogManager
 import com.knilim.knilim.data.model.dialog.Dialog
 import com.knilim.knilim.ui.chat.ChatActivity
 import com.knilim.knilim.ui.main.MainViewModel
@@ -21,36 +22,40 @@ class DialogFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by viewModels()
 
+    private lateinit var dialogsListAdapter: DialogsListAdapter<Dialog>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_dialog, container, false)
-        return root
+        return inflater.inflate(R.layout.fragment_dialog, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainViewModel.messages.observe(viewLifecycleOwner, Observer {
-            mainViewModel.updateMessagesMap(it)
-        })
-        mainViewModel.dialogs.observe(viewLifecycleOwner, Observer {
 
-        })
-
+        // 加载历史上的dialog
+        mainViewModel.getDialogs()
         mainViewModel.dialogs.observe(viewLifecycleOwner, Observer {
-            val dialogsListAdapter = DialogsListAdapter<Dialog>(R.layout.item_dialog,
-                ImageLoader { imageView, url, _ ->
-                    Glide.with(requireContext()).load(url).into(imageView!!)
-                })
-            dialogsListAdapter.setOnDialogClickListener {
-                val intent = Intent(context, ChatActivity::class.java)
-                intent.putExtra("dialog_id", it.id)
-                startActivity(intent)
-            }
             dialogsListAdapter.setItems(it)
-            dialogs_list.setAdapter(dialogsListAdapter)
         })
+
+        DialogManager.lastMessage.observe(viewLifecycleOwner, Observer {
+            dialogsListAdapter.updateDialogWithMessage(it.dialogId, it)
+        })
+
+        initAdapter()
+    }
+
+    private fun initAdapter() {
+        dialogsListAdapter = DialogsListAdapter(R.layout.item_dialog,
+            ImageLoader { imageView, url, _ ->
+                Glide.with(requireContext()).load(url).into(imageView!!)
+            })
+        dialogsListAdapter.setOnDialogClickListener {
+            ChatActivity.startChat(requireContext(), it.id)
+        }
+        dialogs_list.setAdapter(dialogsListAdapter)
     }
 }

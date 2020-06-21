@@ -1,17 +1,19 @@
 package com.knilim.knilim.ui.chat
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.activity.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.knilim.base.Utils
 import com.knilim.knilim.R
+import com.knilim.knilim.data.login.LoginRepository
+import com.knilim.knilim.data.main.DialogManager
 import com.knilim.knilim.data.main.DialogRepository
 import com.knilim.knilim.data.main.MessageRepository
-import com.knilim.knilim.data.main.UserRepository
 import com.knilim.knilim.data.model.dialog.Dialog
 import com.knilim.knilim.data.model.message.ContentType
 import com.knilim.knilim.data.model.message.Message
@@ -19,12 +21,11 @@ import com.stfalcon.chatkit.commons.ImageLoader
 import com.stfalcon.chatkit.messages.MessageInput
 import com.stfalcon.chatkit.messages.MessagesListAdapter
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.*
 import java.util.*
-import java.util.concurrent.CopyOnWriteArrayList
 
-class ChatActivity : AppCompatActivity(), MessageInput.InputListener {
-
-    private lateinit var messages: CopyOnWriteArrayList<Message>
+class ChatActivity : AppCompatActivity(), CoroutineScope by MainScope(),
+    MessageInput.InputListener {
 
     private lateinit var dialog: Dialog
 
@@ -36,24 +37,16 @@ class ChatActivity : AppCompatActivity(), MessageInput.InputListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+
         // 拿到传入的dialog对象
-        dialog = intent.extras?.getString("dialog_id")?.let { DialogRepository.getDialogById(it) }!!
+        dialog = intent.extras?.getString("dialog_id")?.let { chatViewModel.getDialogById(it) }!!
 
-        chatViewModel.setMessagesLiveData(dialog.id)
-
-        // 初始化message列表
-        messages = MessageRepository.getMessagesByDialogId(dialog.id)
-
-        // 初始化adapter
         initAdapter()
 
-        // 监听数据库消息列表的变化
+        // 加载历史消息
+        chatViewModel.getMessagesByDialogId(dialog.id)
         chatViewModel.messages.observe(this, Observer {
-            // 当数据库内容有变化时，及时将新的消息反映到UI上
-            for(i in messages.size until it.size) {
-                messages.add(it[i])
-                insertMessagesList(it[i])
-            }
+            adapter?.addToEnd(it, true)
         })
 
         // 让消息发送按钮起作用
@@ -62,33 +55,49 @@ class ChatActivity : AppCompatActivity(), MessageInput.InputListener {
 
     private fun initAdapter() {
         adapter = MessagesListAdapter<Message>(
-            UserRepository.user.id,
+            LoginRepository.user.id,
             ImageLoader { imageView, url, _ -> Glide.with(this).load(url).into(imageView) })
-        adapter!!.addToEnd(messages, true)
         messagesList.setAdapter(adapter)
     }
 
-    private fun insertMessagesList(message: Message) {
+    private fun onNewMessage(message: Message) {
+        // UI上插入
         adapter?.addToStart(message, true)
+        // 插入到数据库中
+        chatViewModel.insertMessage(message)
+        // 更新最后一条消息的map
+        MessageRepository.updateMessageMap(dialog.id, message)
+        DialogManager.updateLastMessage(message)
     }
 
     override fun onSubmit(input: CharSequence?): Boolean {
-        if(TextUtils.isEmpty(input.toString())) {
+        if (TextUtils.isEmpty(input.toString())) {
             return false
         }
-
-        insertMessagesList(
-            Message(
-                UUID.randomUUID().toString(),
-                MessageRepository.judgeMessageType(dialog.id),
-                ContentType.TEXT,
-                UserRepository.user.id,
-                dialog.id,
-                System.currentTimeMillis(),
-                input.toString(),
-                dialog.id
-            )
+        val message = Message(
+            UUID.randomUUID().toString(),
+            MessageRepository.judgeMessageType(dialog.id),
+            ContentType.TEXT,
+            LoginRepository.user.id,
+            dialog.id,
+            System.currentTimeMillis(),
+            input.toString(),
+            dialog.id
         )
+        onNewMessage(message)
         return true
+    }
+
+    companion object {
+        fun startChat(context: Context, dialogId: String) {
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("dialog_id", dialogId)
+            context.startActivity(intent)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 }

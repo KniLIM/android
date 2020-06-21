@@ -13,8 +13,8 @@ interface MessageDao {
     fun deleteMessage(message: Message)
 
     @Query("SELECT * FROM Message")
-    fun selectAllMessages() : LiveData<List<Message>>
+    fun selectAllMessages() : List<Message>
 
     @Query("select * from Message where dialogId= :dialogId")
-    fun getMessagesByDialogId(dialogId: String) : LiveData<List<Message>>
+    fun getMessagesByDialogId(dialogId: String) : List<Message>
 }

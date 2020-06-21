@@ -8,8 +8,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.knilim.knilim.data.login.LoginRepository;
 import com.knilim.knilim.data.main.MessageRepository;
-import com.knilim.knilim.data.main.UserRepository;
 import com.knilim.knilim.data.model.message.Message;
 import com.stfalcon.chatkit.commons.models.IDialog;
 import com.stfalcon.chatkit.commons.models.IUser;
@@ -74,14 +74,13 @@ public class Dialog implements IDialog<Message>, Serializable {
     public List<? extends IUser> getUsers() {
         if (users == null) {
             users = new ArrayList();
-            users.add(UserRepository.INSTANCE.getUser());
+            users.add(LoginRepository.INSTANCE.getUser());
         }
         return users;
     }
 
     @Override
     public Message getLastMessage() {
-        setLastMessage(MessageRepository.INSTANCE.getLastMessage(id));
         return lastMessage;
     }
 

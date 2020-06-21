@@ -7,7 +7,7 @@ import com.knilim.knilim.data.model.dialog.Dialog
 @Dao
 interface DialogDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDialog(dialog: Dialog)
 
     @Update
@@ -17,5 +17,5 @@ interface DialogDao {
     fun deleteDialog(dialog: Dialog)
 
     @Query("select * from Dialog")
-    fun selectAllDialogs() : LiveData<List<Dialog>>
+    fun selectAllDialogs() : List<Dialog>
 }

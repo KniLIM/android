@@ -12,12 +12,19 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.knilim.knilim.R
 import com.knilim.knilim.data.model.user.Friend
+import com.knilim.knilim.ui.chat.ChatActivity
 
 class FriendAdapter(private val friends: List<Friend>, private val context: Context) :
     RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val friendImage: ImageView = view.findViewById(R.id.friend_image)
         val friendName: TextView = view.findViewById(R.id.friend_name)
+        init {
+            view.setOnClickListener {
+                val position = layoutPosition
+                ChatActivity.startChat(context, friends[position].id)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendAdapter.ViewHolder {

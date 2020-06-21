@@ -1,20 +1,37 @@
 package com.knilim.knilim.ui.chat
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.knilim.base.Utils
+import com.knilim.knilim.data.main.DialogRepository
+import com.knilim.knilim.data.model.dialog.Dialog
 import com.knilim.knilim.data.model.message.Message
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChatViewModel: ViewModel() {
+class ChatViewModel() : ViewModel() {
 
-    lateinit var messages: LiveData<List<Message>>
+    private val _messages = MutableLiveData<List<Message>>()
+    val messages: LiveData<List<Message>> = _messages
 
-    fun setMessagesLiveData(dialogId: String) {
-        messages = Utils.db.messageDao().getMessagesByDialogId(dialogId)
+    fun getMessagesByDialogId(dialogId: String) {
+         viewModelScope.launch {
+             withContext(Dispatchers.IO) {
+                 _messages.postValue(Utils.db.messageDao().getMessagesByDialogId(dialogId))
+             }
+         }
     }
 
+    fun getDialogById(dialogId: String): Dialog {
+        return DialogRepository.getDialogById(dialogId)
+    }
+
+    fun insertMessage(message: Message) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                Utils.db.messageDao().insertMessage(message)
+            }
+        }
+    }
 }
