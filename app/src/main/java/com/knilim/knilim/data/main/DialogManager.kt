@@ -23,7 +23,6 @@ object DialogManager : CoroutineScope by MainScope()  {
         if(!isDialogsLoaded) {
             launch {
                 withContext(Dispatchers.IO) {
-                    // TODO 按照时间排个序
                     val dialogList = DialogRepository.getDialogs()
                     DialogRepository.initDialogMap(dialogList)
                     _dialogs.postValue(dialogList)
