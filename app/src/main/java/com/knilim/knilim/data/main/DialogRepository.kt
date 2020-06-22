@@ -22,6 +22,8 @@ object DialogRepository : CoroutineScope by MainScope() {
             dialog.lastMessage = MessageRepository.getLastMessage(dialog.id)
             result.add(dialog)
         }
+        // 对result列表，按照最后一次消息的发送时间排个序
+        result.sortByDescending { it.lastMessage.createdTime }
         return result
     }
 

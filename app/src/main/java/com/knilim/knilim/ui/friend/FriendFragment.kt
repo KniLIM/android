@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_friend.*
 
 class FriendFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val friendViewModel : FriendViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,7 @@ class FriendFragment : Fragment() {
 
         // 设置recyclerView
         val friendLayoutManager = LinearLayoutManager(requireContext())
-        mainViewModel.friends.observe(viewLifecycleOwner, Observer {
+        friendViewModel.friends.observe(viewLifecycleOwner, Observer {
             val friendAdapter = FriendAdapter(it, requireContext())
             friend_recyclerView.apply {
                 setHasFixedSize(true)

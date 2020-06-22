@@ -1,6 +1,5 @@
 package com.knilim.knilim.ui.dialog
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +10,16 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.knilim.knilim.R
 import com.knilim.knilim.data.main.DialogManager
+import com.knilim.knilim.data.main.DialogRepository
 import com.knilim.knilim.data.model.dialog.Dialog
 import com.knilim.knilim.ui.chat.ChatActivity
+import com.knilim.knilim.ui.friend.FriendViewModel
 import com.knilim.knilim.ui.main.MainViewModel
 import com.stfalcon.chatkit.commons.ImageLoader
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import kotlinx.android.synthetic.main.fragment_dialog.*
 
 class DialogFragment : Fragment() {
-
-    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var dialogsListAdapter: DialogsListAdapter<Dialog>
 
@@ -36,13 +35,16 @@ class DialogFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // 加载历史上的dialog
-        mainViewModel.getDialogs()
-        mainViewModel.dialogs.observe(viewLifecycleOwner, Observer {
+        DialogManager.getDialogs()
+        DialogManager.dialogs.observe(viewLifecycleOwner, Observer {
             dialogsListAdapter.setItems(it)
         })
 
         DialogManager.lastMessage.observe(viewLifecycleOwner, Observer {
-            dialogsListAdapter.updateDialogWithMessage(it.dialogId, it)
+            if (!dialogsListAdapter.updateDialogWithMessage(it.dialogId, it)) {
+                dialogsListAdapter.addItem(0, DialogRepository.getDialogById(it.dialogId))
+                dialogsListAdapter.updateDialogWithMessage(it.dialogId, it)
+            }
         })
 
         initAdapter()

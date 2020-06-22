@@ -23,29 +23,4 @@ class MainViewModel : ViewModel() {
         value = LoginRepository.user
     }
     val user: LiveData<User> = _user
-
-    private val _groups = MutableLiveData<CopyOnWriteArrayList<Group>>().apply {
-        GroupRepository.setGroupMap(LoginRepository.groups)
-        value = LoginRepository.groups
-    }
-    val groups: LiveData<CopyOnWriteArrayList<Group>> = _groups
-
-    private val _friends = MutableLiveData<CopyOnWriteArrayList<Friend>>().apply {
-        FriendRepository.setFriendMap(LoginRepository.friends)
-        value = LoginRepository.friends
-    }
-    val friends: LiveData<CopyOnWriteArrayList<Friend>> = _friends
-
-    private val _dialogs = MutableLiveData<MutableList<Dialog>>()
-    val dialogs: LiveData<MutableList<Dialog>> = _dialogs
-
-    fun getDialogs() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val dialogList = DialogRepository.getDialogs()
-                DialogRepository.initDialogMap(dialogList)
-                _dialogs.postValue(dialogList)
-            }
-        }
-    }
 }
