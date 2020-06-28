@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +18,7 @@ import com.knilim.knilim.data.main.MessageRepository
 import com.knilim.knilim.data.model.dialog.Dialog
 import com.knilim.knilim.data.model.message.ContentType
 import com.knilim.knilim.data.model.message.Message
+import com.knilim.server.MessageServer
 import com.stfalcon.chatkit.commons.ImageLoader
 import com.stfalcon.chatkit.messages.MessageInput
 import com.stfalcon.chatkit.messages.MessagesListAdapter
@@ -26,6 +28,8 @@ import java.util.*
 
 class ChatActivity : AppCompatActivity(), CoroutineScope by MainScope(),
     MessageInput.InputListener {
+
+    private var lastMessage: Message? = null
 
     private lateinit var dialog: Dialog
 
@@ -47,6 +51,23 @@ class ChatActivity : AppCompatActivity(), CoroutineScope by MainScope(),
         chatViewModel.getMessagesByDialogId(dialog.id)
         chatViewModel.messages.observe(this, Observer {
             adapter?.addToEnd(it, true)
+        })
+
+        // 消息发送，得到回应后，显示在UI上
+        DialogManager.onSend.observe(this, Observer {
+            if (it == "send-ack") {
+                lastMessage?.let {
+                    Toast.makeText(this, "send-ack", Toast.LENGTH_LONG).show()
+                    onNewMessage(it)
+                }
+            }
+        })
+
+        // 当有收到新消息时的反应
+        DialogManager.rsvMessage.observe(this, Observer {
+            if(it.dialogId == dialog.id) {
+                adapter?.addToStart(it, true)
+            }
         })
 
         // 让消息发送按钮起作用
@@ -84,7 +105,8 @@ class ChatActivity : AppCompatActivity(), CoroutineScope by MainScope(),
             input.toString(),
             dialog.id
         )
-        onNewMessage(message)
+        lastMessage = message
+        MessageServer.sendMessage(message)
         return true
     }
 

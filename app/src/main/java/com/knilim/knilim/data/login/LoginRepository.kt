@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.knilim.base.Utils
 import com.knilim.knilim.data.model.user.Friend
 import com.knilim.knilim.data.model.user.Group
-import com.knilim.server.data.model.Socket
+import com.knilim.knilim.data.model.Socket
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**

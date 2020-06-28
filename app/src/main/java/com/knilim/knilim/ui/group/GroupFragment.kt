@@ -12,7 +12,7 @@ import com.knilim.knilim.ui.main.MainViewModel
 
 class GroupFragment : Fragment() {
 
-    private val groupViewModel: GroupViewModel by viewModels()
+    private val groupViewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

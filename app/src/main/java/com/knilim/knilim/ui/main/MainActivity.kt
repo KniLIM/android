@@ -2,6 +2,7 @@ package com.knilim.knilim.ui.main
 
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -16,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.knilim.base.Utils
 import com.knilim.knilim.R
 import com.knilim.knilim.data.database.ImDatabase
+import com.knilim.knilim.data.main.DialogManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -31,6 +33,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // 开启session-server
+        mainViewModel.connectSessionServer()
 
         // 初始化数据库
         Utils.db = Room.databaseBuilder(applicationContext, ImDatabase::class.java, getString(R.string.database)).build()
@@ -68,6 +73,10 @@ class MainActivity : AppCompatActivity() {
             // 设置头像的旁边的文字
             draw_my_nickname.text = it.nickname
             draw_my_signature.text = it.signature
+        })
+
+        DialogManager.connectResponse.observe(this, Observer {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         })
     }
 

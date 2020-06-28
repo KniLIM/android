@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_friend.*
 
 class FriendFragment : Fragment() {
 
-    private val friendViewModel : FriendViewModel by viewModels()
+    private val friendViewModel : MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

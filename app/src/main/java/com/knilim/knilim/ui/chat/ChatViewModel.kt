@@ -6,7 +6,6 @@ import com.knilim.knilim.data.main.DialogRepository
 import com.knilim.knilim.data.model.dialog.Dialog
 import com.knilim.knilim.data.model.message.Message
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -24,7 +23,7 @@ class ChatViewModel() : ViewModel() {
     }
 
     fun getDialogById(dialogId: String): Dialog {
-        return DialogRepository.getDialogById(dialogId)
+        return DialogRepository.getOrCreateDialogById(dialogId)
     }
 
     fun insertMessage(message: Message) {

@@ -154,4 +154,19 @@ public class Message implements IMessage {
     public void setDialogId(String dialogId) {
         this.dialogId = dialogId;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id='" + id + '\'' +
+                ", messageType=" + messageType +
+                ", contentType=" + contentType +
+                ", sender='" + sender + '\'' +
+                ", receiver='" + receiver + '\'' +
+                ", createdTime=" + createdTime +
+                ", content='" + content + '\'' +
+                ", dialogId='" + dialogId + '\'' +
+                ", author=" + author +
+                '}';
+    }
 }
